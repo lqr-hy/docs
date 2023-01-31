@@ -39,6 +39,9 @@ module.exports = {
     logo: '/assets/logo.jpg',
     nav: [
       { text: 'Home', link: '/' },
+      { text: '前端三剑客', link: '/js/' },
+      { text: 'Vue', link: '/vue/' },
+      { text: 'Node', link: '/node/' },
       { text: 'React', link: '/react/' },
       // { text: 'Vue', link: '/vue/',
       //   items: [
@@ -46,8 +49,6 @@ module.exports = {
       //     { text: '优化', link: '/vue/jinjie/' }
       //   ]
       // },
-      { text: 'Vue', link: '/vue/' },
-      { text: 'Node', link: '/node/' },
       { text: 'Webpack', link: '/webpack/' },
       { text: 'Network', link: '/network/' },
       // { text: 'Docker', link: '/docker/' },
@@ -56,15 +57,17 @@ module.exports = {
         link: '/other/',
         items: [
           { text: 'docker', link: '/other/docker/' },
-          { text: 'jest', link: '/other/jest/' }
+          { text: 'jest', link: '/other/jest/' },
+          { text: 'Cypress', link: '/other/cypress' }
         ]
       },
       { text: 'Github', link: 'https://github.com/lqrDream' }
     ],
     sidebar: {
-      '/react/': ['base', 'advanced', 'optimization', 'sourceCode'],
+      '/js/': ['css', 'html', 'javascript'],
       '/vue/': ['base', 'advanced', 'optimization', 'sourceCode'],
       '/node/': ['base', 'advanced', 'optimization', 'sourceCode'],
+      '/react/': ['base', 'advanced', 'optimization', 'sourceCode'],
       '/webpack/': ['base', 'advanced', 'optimization', 'sourceCode'],
       '/network/': ['base', 'advanced', 'optimization', 'sourceCode'],
       '/other/docker/': ['base', 'advanced'],
