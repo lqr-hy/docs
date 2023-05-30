@@ -3,13 +3,10 @@ import path from 'node:path'
 import { text } from 'stream/consumers'
 import { DefaultTheme } from 'vitepress'
 
-let navList: DefaultTheme.NavItem[] = []
-
 interface IDir {
   text: string
   link: string
   activeMatch?: string
-  childrenFile?: string
   childrenDir?: IDir[]
 }
 
@@ -37,15 +34,14 @@ function eachFile(currentPath: string = '/') {
       if (fileInfo.isFile()) {
         arr = {
           text: fileName.replace(/\d+-/i, '').replace('.md', ''),
-          link: fileName,
-          childrenFile: fileName
+          link: fileName
         }
       }
 
       if (fileInfo.isDirectory() && !fileName.includes('.')) {
         arr = {
           text: fileName,
-          link: fileName.toLowerCase(),
+          link: fileName,
           activeMatch: `/${fileName}/`,
           childrenDir: deepFile(path.join(dirPath, fileName), [])
         }
@@ -74,19 +70,58 @@ function defaultLink(navItem: IDir, link) {
   return navItem.link + '/'
 }
 
+const baseCategory = ['Html-Css', 'Javascript', 'Typescript']
+const visualizationCategory = ['Threejs', 'WebGpu', 'Webgl']
+const frameworkCategory = ['Vue', 'React']
+
 function nav() {
+  let navList: DefaultTheme.NavItem[] = [
+    {
+      text: '基础',
+      items: []
+    },
+    {
+      text: '框架',
+      items: []
+    },
+    {
+      text: '可视化',
+      items: []
+    }
+  ]
   const dirTree = eachFile()
   for (const navItem of dirTree) {
-    if (navItem.childrenDir && (navItem.childrenDir as IDir[]).length) {
-      navList.push({
+    if (baseCategory.includes(navItem.text)) {
+      const baseNav = navList.find(
+        (nav) => nav.text && nav.text === '基础'
+      ) as DefaultTheme.NavItemChildren
+      baseNav.items.push({
         text: navItem.text,
-        link: defaultLink(navItem, navItem.link),
+        link: '/' + defaultLink(navItem, navItem.link),
+        activeMatch: navItem.activeMatch
+      })
+    } else if (visualizationCategory.includes(navItem.text)) {
+      const visualizationNav = navList.find(
+        (nav) => nav.text && nav.text === '可视化'
+      ) as DefaultTheme.NavItemChildren
+      visualizationNav.items.push({
+        text: navItem.text,
+        link: '/' + defaultLink(navItem, navItem.link),
+        activeMatch: navItem.activeMatch
+      })
+    } else if (frameworkCategory.includes(navItem.text)) {
+      const frameworkNav = navList.find(
+        (nav) => nav.text && nav.text === '框架'
+      ) as DefaultTheme.NavItemChildren
+      frameworkNav.items.push({
+        text: navItem.text,
+        link: '/' + defaultLink(navItem, navItem.link),
         activeMatch: navItem.activeMatch
       })
     } else {
       navList.push({
         text: navItem.text,
-        link: defaultLink(navItem, navItem.link),
+        link: '/' + defaultLink(navItem, navItem.link),
         activeMatch: navItem.activeMatch
       })
     }
@@ -94,55 +129,42 @@ function nav() {
   return navList
 }
 
-function itemLink(navItem: IDir, itemChild: IDir) {
-  if (itemChild.childrenDir && itemChild.childrenDir.length) {
-    let linkPath = navItem.link + '/' + itemChild.link
-    function deepPath (itemChild: IDir, linkPath) {
-      console.log(itemChild, '====')
-      if (itemChild.childrenDir?.length) {
-        linkPath = linkPath + '/' + itemChild.childrenDir[0].link
-        return deepPath(itemChild.childrenDir[0], linkPath)
-      }
-      return linkPath
-    }
-    linkPath = deepPath(itemChild, linkPath)
-    return linkPath
-  }
-  return navItem.link + '/' + itemChild.link
-}
-
 function sidebar() {
   const dirTree = eachFile()
-  // console.log(dirTree)
   let sideObj: DefaultTheme.Sidebar = {}
-  // console.log(navList)
-  // const bar = navList.map((nav) => {
-  //   return eachFile('/' + nav.text)
-  // })
-  // console.log(bar)
 
-  function deepDir() {
-    dirTree.forEach((item) => {
-      sideObj[`${item.activeMatch}`] = [
-        {
-          text: item.text,
-          collapsed: false,
-          items: item.childrenDir?.map((itemChild) => {
-            return {
-              text: itemChild.text,
-              link: itemLink(item, itemChild)
+  const dirResult = dirTree.map((dir) => {
+    return {
+      text: dir.text,
+      collapsed: false,
+      items: deepDir(dir.childrenDir, '/' + dir.link)
+    }
+  })
+
+  function deepDir(dir, link) {
+    if (Array.isArray(dir)) {
+      return dir.map((item) => {
+        const linkPath = link + '/' + item.link
+        const isShowCollapsed = item.childrenDir
+          ? {
+              collapsed: false
             }
-          })
+          : {
+              link: linkPath.replace('.md', '')
+            }
+        return {
+          text: item.text,
+          ...isShowCollapsed,
+          items: deepDir(item.childrenDir, linkPath)
         }
-      ]
-    })
+      })
+    }
+    return null
   }
 
-  deepDir()
-  for (const key in sideObj) {
-    console.log(sideObj[key][0])
+  for (const dir of dirResult) {
+    sideObj[`/${dir.text}/`] = [dir]
   }
-
   return sideObj
 }
 
