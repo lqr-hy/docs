@@ -1,6 +1,5 @@
 import fs, { link } from 'node:fs'
 import path from 'node:path'
-import { text } from 'stream/consumers'
 import { DefaultTheme } from 'vitepress'
 
 interface IDir {
@@ -73,6 +72,7 @@ function defaultLink(navItem: IDir, link) {
 const baseCategory = ['Html-Css', 'Javascript', 'Typescript']
 const visualizationCategory = ['Threejs', 'WebGpu', 'Webgl']
 const frameworkCategory = ['Vue', 'React']
+const engineeringCategory = ['Build-Tools', 'Git']
 
 function nav() {
   let navList: DefaultTheme.NavItem[] = [
@@ -86,6 +86,14 @@ function nav() {
     },
     {
       text: '可视化',
+      items: []
+    },
+    {
+      text: '工程化',
+      items: []
+    },
+    {
+      text: '其他',
       items: []
     }
   ]
@@ -118,8 +126,20 @@ function nav() {
         link: '/' + defaultLink(navItem, navItem.link),
         activeMatch: navItem.activeMatch
       })
+    } else if (engineeringCategory.includes(navItem.text)) {
+      const engineeringNav = navList.find(
+        (nav) => nav.text && nav.text === '工程化'
+      ) as DefaultTheme.NavItemChildren
+      engineeringNav.items.push({
+        text: navItem.text,
+        link: '/' + defaultLink(navItem, navItem.link),
+        activeMatch: navItem.activeMatch
+      })
     } else {
-      navList.push({
+      const otherNav = navList.find(
+        (nav) => nav.text && nav.text === '其他'
+      ) as DefaultTheme.NavItemChildren
+      otherNav.items.push({
         text: navItem.text,
         link: '/' + defaultLink(navItem, navItem.link),
         activeMatch: navItem.activeMatch
