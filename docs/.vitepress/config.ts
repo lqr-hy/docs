@@ -9,6 +9,7 @@ export default defineConfig({
   lastUpdated: true,
   cleanUrls: true,
   themeConfig: {
+    outline: 'deep',
     nav: nav(),
 
     sidebar: sidebar(),
