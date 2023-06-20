@@ -4,11 +4,11 @@ layout: home
 
 hero:
   name: "my-note"
-  text: "A VitePress Site"
-  tagline: My great project tagline
+  text: "前端笔记"
+  tagline: 学习笔记
   actions:
     - theme: brand
-      text: Markdown Examples
+      text: 开始
       link: /markdown-examples
     - theme: alt
       text: API Examples
