@@ -1,4 +1,4 @@
-import fs, { link } from 'node:fs'
+import fs from 'node:fs'
 import path from 'node:path'
 import { DefaultTheme } from 'vitepress'
 
@@ -19,6 +19,15 @@ function eachFile(currentPath: string = '/') {
 
   function deepFile(dirPath, dirArr: IDir[]) {
     const fileNames = fs.readdirSync(dirPath)
+
+    const compare = (a, b) => {
+      const numA = parseInt(a.slice(0, -1)); // 提取数字部分
+      const numB = parseInt(b.slice(0, -1));
+      
+      return numA - numB; // 按数字升序排序
+    };
+    // 排序
+    fileNames.sort(compare)
     fileNames.forEach((fileName) => {
       let arr: IDir = {
         text: '',
@@ -29,7 +38,6 @@ function eachFile(currentPath: string = '/') {
       const filePath = path.resolve(dirPath, fileName)
       // 读取文件信息
       const fileInfo = fs.lstatSync(filePath)
-
       if (fileInfo.isFile()) {
         arr = {
           text: fileName.replace(/\d+-/i, '').replace('.md', ''),

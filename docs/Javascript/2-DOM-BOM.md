@@ -1,8 +1,7 @@
-# DOM
-全称 Document Object Model 文档对象模型
-文档：整个 HTML 网页文档。
-对象：网页中的每一个部分都转换为了对象。
-模型：使用模型表示对象之间的关系，方便获取对象。
+# DOM-BOM
+
+> - DOM Document Object Model 文档对象模型 将文档当作一个对象 这个对象主要定义了处理网页内容的方法和接口
+> - BOM Browser Object Model 浏览器对象模型 将浏览器当作一个对象 主要定义了与浏览器进行交互的方法和接口
 
 ### 1、节点介绍
 
