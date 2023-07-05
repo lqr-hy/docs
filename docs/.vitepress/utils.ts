@@ -79,7 +79,7 @@ function defaultLink(navItem: IDir, link) {
 
 const baseCategory = ['Html-Css', 'Javascript', 'Typescript']
 const visualizationCategory = ['Threejs', 'WebGpu', 'Webgl']
-const frameworkCategory = ['Vue', 'React']
+const frameworkCategory = ['Vue', 'React', 'Node']
 const engineeringCategory = ['Build-Tools', 'Git']
 
 function nav() {
