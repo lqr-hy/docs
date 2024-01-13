@@ -80,7 +80,7 @@ function defaultLink(navItem: IDir, link) {
 const baseCategory = ['Html-Css', 'Javascript', 'Typescript']
 const visualizationCategory = ['Threejs', 'WebGpu', 'Webgl']
 const frameworkCategory = ['Vue', 'React', 'Node']
-const engineeringCategory = ['Build-Tools', 'Git']
+const engineeringCategory = ['Build-Tools', 'Git', 'DesignPatterns']
 
 function nav() {
   let navList: DefaultTheme.NavItem[] = [
