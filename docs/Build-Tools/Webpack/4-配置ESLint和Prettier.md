@@ -63,6 +63,49 @@ module.exports = {
 }
 ```
 
+4. 自定义 eslint-plugin
+
+```bash
+npm i yo generator-eslint
+
+yo eslint:plugin // 创建eslint-plugin 文件目录
+yo eslint:rule // 创建规则
+```
+
+::: details no-console.js
+
+```js
+module.exports = {
+  meta: {
+    type: 'suggestion',
+    docs: {
+      description: 'disallow the use of console',
+      category: 'Best Practices',
+      recommended: false
+    },
+    fixable: "code", 
+    schema: [] // no options
+  },
+  create(context) {
+    return {
+      CallExpression(node) {
+        if (node.callee.object && node.callee.object.name === 'console') {
+          context.report({
+            node,
+            message: 'Unexpected console statement.',
+            fix(fixer) {
+              return fixer.remove(node);
+            }
+          })
+        }
+      }
+    }
+  }
+}
+```
+
+:::
+
 ### 2、Prettier
 
 1. 安装依赖
@@ -406,6 +449,7 @@ npm i --save-dev prettier
 ```
 
 .prettierrc.js
+
 ```js
 {
   "parser": "typescript", // 指定解析器为 TypeScript 解析器
