@@ -4,6 +4,7 @@
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs"
   },
+  "license": "MIT",
   "devDependencies": {
     "vitepress": "^1.0.1"
   },

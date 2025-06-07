@@ -79,7 +79,7 @@ function defaultLink(navItem: IDir, link) {
 
 const baseCategory = ['Html-Css', 'Javascript', 'Typescript']
 const visualizationCategory = ['Threejs', 'WebGpu', 'Webgl']
-const frameworkCategory = ['Vue', 'React', 'Node']
+const frameworkCategory = ['Vue', 'React', 'Node', 'WebComponent']
 const engineeringCategory = ['Build-Tools', 'Git', 'DesignPatterns']
 
 function nav() {
@@ -107,6 +107,10 @@ function nav() {
   ]
   const dirTree = eachFile()
   for (const navItem of dirTree) {
+    // 过滤的目录
+    if (navItem.text === 'public') {
+      continue
+    }
     if (baseCategory.includes(navItem.text)) {
       const baseNav = navList.find(
         (nav) => nav.text && nav.text === '基础'
